@@ -1,0 +1,66 @@
+name: Using custom action
+on:
+  push:
+    branches:
+      - main
+ 
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+ 
+      #Use the custom setup action i
+    - name: Setup .NET 7
+      uses: paramwinwire/test-repo1/.github/actions/custom-setup-dotnet7@main
+      #uses:paramwinwire/test-repo1/.github/actions/custom-setup-dotnet7@main
+ 
+  build:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+ 
+    - name: Build
+      run: echo "Building..."
+ 
+  test:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+ 
+    - name: Run Tests
+      run: echo "Running tests..."
+ 
+  deploy:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+ 
+    - name: Deploy
+      run: echo "Deploying..."
+ 
+  cleanup:
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+ 
+    - name: Clean Up
+      run: echo "Cleaning up..."
+ 
+  final:
+    needs: [setup, build, test, deploy, cleanup]
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Final Step
+      run: echo "All jobs completed!"
