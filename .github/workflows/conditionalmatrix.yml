@@ -1,0 +1,48 @@
+name: Matrix Build and Test
+ 
+on:
+  push:
+    branches:
+      - main
+ 
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        configuration: [Debug, Release]
+        runtime: [linux-x64, win10-x64, osx-x64]
+ 
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+ 
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 7.x
+ 
+    - name: Display OS, .NET Core Version, Configuration, and Runtime
+      run: |
+        echo "Running on: ${{ matrix.os }}"
+        echo "Using .NET Core version 7.x"
+        echo "Configuration: ${{ matrix.configuration }}"
+        echo "Runtime: ${{ matrix.runtime }}"
+
+    - name: Build and Test
+      run: |
+        cd MyWebApp
+        dotnet build --configuration ${{ matrix.configuration }} --runtime ${{ matrix.runtime }} --no-self-contained   
+        dotnet test
+
+    - name: Deploy
+      run: |
+        if [ "${{ matrix.configuration }}" = "Release" ] && [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+          echo "Deploying on Ubuntu for Release configuration"
+          echo "Deploying"
+        else
+          echo "Skipping deployment"
+        fi
+      if: matrix.configuration == 'Release' && matrix.os == 'ubuntu-latest'
