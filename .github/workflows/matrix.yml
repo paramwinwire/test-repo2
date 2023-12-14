@@ -53,7 +53,7 @@ jobs:
       if: steps.deploy.outputs.deploy_success == 'true'
       uses: cinotify/github-action@main
       with:
-        to: 'paramesh72043@gmail.com' #enter an email address to which the notification needs to be sent
+        to: 'rajanparamesh@gmail.com' #enter an email address to which the notification needs to be sent
         subject: 'Deployment Successful'
         body: |
           Hey ${{github.actor}}! The deployment on ${{ matrix.os }} for configuration ${{ matrix.configuration }} and runtime ${{ matrix.runtime }} was successful.
