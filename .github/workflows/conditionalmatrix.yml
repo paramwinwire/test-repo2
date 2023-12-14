@@ -1,4 +1,4 @@
-name: Matrix Build and Test using conditional logic
+name: Matrix Build and Test using conditional logic 
  
 on:
   push:
