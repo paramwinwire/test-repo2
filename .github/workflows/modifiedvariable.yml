@@ -1,4 +1,4 @@
-name: Use GitHub Workflow Variables
+name: Use GitHub Workflow  modified Variables
  
 on:
   push:
