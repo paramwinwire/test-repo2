@@ -1,0 +1,21 @@
+name: Lint GitHub Actions Workflows
+ 
+on:
+  push:
+  pull_request:
+ 
+permissions:
+  contents: read
+ 
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+ 
+      - name: Lint Workflow Files
+        uses: docker://docker.mirror.hashicorp.services/rhysd/actionlint:latest
+        with:
+          args: .github/workflows/manualapprovalwithlint.yml

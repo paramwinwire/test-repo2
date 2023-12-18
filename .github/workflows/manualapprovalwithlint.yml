@@ -1,0 +1,35 @@
+name: Manual Approval Workflow with lint
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      approve:
+        description: 'Approve the workflow execution'
+        required: false
+        default: 'false'
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+ 
+      - name: Build and Test
+        run: echo "Building and testing"
+ 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event.inputs.approve == 'true'
+ 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+ 
+      - name: Deploy
+        run: echo "Deploying"
+ 
+      - name: Notify User
+        run: echo "Deployment successful, notify the user or take any other action"
