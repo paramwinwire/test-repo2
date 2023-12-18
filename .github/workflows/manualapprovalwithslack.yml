@@ -1,0 +1,41 @@
+name: Manual Approval Workflow with Slack
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      approve:
+        description: 'Approve the workflow execution'
+        required: false
+        default: 'false'
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+ 
+      - name: Build and Test
+        run: echo "Building and testing"
+ 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event.inputs.approve == 'true'
+ 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+ 
+      - name: Deploy
+        run: echo "Deploying"
+ 
+      - name: Post to Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'learn-github-actions' # Replace with your Slack channel ID 
+          slack-message: "GitHub build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
