@@ -22,4 +22,4 @@ jobs:
         fi
 
     - name: Display PowerShell version
-      run: pwsh -c "$PSVersionTable.PSVersion"
+      run: pwsh -c "Get-Host | Select-Object Version"
