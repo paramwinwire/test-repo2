@@ -1,0 +1,25 @@
+name: Check PowerShell on Ubuntu
+
+on: [push, pull_request]
+
+jobs:
+  check-powershell:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Check PowerShell installation
+      run: |
+        if command -v pwsh &> /dev/null
+        then
+          echo "PowerShell is installed."
+        else
+          echo "PowerShell is not installed. Installing..."
+          sudo apt-get update
+          sudo apt-get install -y powershell
+        fi
+
+    - name: Display PowerShell version
+      run: pwsh -c "$PSVersionTable.PSVersion"
